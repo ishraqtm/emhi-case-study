@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Julia's Digital Health Journey | Rural Healthcare Innovation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1.5" fill="white" opacity="0.08"/><circle cx="50" cy="10" r="0.8" fill="white" opacity="0.12"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grain)"/></svg>');
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 2;
+            position: relative;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 4em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            animation: slideInUp 1s ease-out;
+        }
+
+        .hero .subtitle {
+            font-size: 1.4em;
+            margin-bottom: 30px;
+            opacity: 0.95;
+            font-weight: 300;
+            animation: slideInUp 1s ease-out 0.3s both;
+        }
+
+        .hero .description {
+            font-size: 1.1em;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            animation: slideInUp 1s ease-out 0.6s both;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.3);
+            animation: slideInUp 1s ease-out 0.9s both;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(79, 172, 254, 0.4);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 2em;
+            animation: bounce 2s infinite;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 15px 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            transform: translateY(-100%);
+        }
+
+        .nav.visible {
+            transform: translateY(0);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .nav-logo {
+            font-weight: 700;
+            font-size: 1.3em;
+            color: #667eea;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        /* Patient Story Section */
+        .patient-story {
+            padding: 100px 0;
+            background: linear-gradient(45deg, #f8f9ff 0%, #fff 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 60px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 60px;
+            align-items: center;
+            margin-bottom: 80px;
+        }
+
+        .patient-profile-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .patient-profile-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .patient-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            color: white;
+            margin: 0 auto 20px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .patient-name {
+            font-size: 2em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .patient-details {
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+        }
+
+        .condition-tags {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .condition-tag {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .story-content {
+            font-size: 1.2em;
+            line-height: 1.8;
+            color: #444;
+        }
+
+        .story-content p {
+            margin-bottom: 20px;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+        }
+
+        /* Challenges Section */
+        .challenges {
+            padding: 100px 0;
+            background: #fff;
+        }
+
+        .challenges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .challenge-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-left: 5px solid;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .challenge-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .challenge-card.tech { border-left-color: #ff6b6b; }
+        .challenge-card.connectivity { border-left-color: #4ecdc4; }
+        .challenge-card.privacy { border-left-color: #45b7d1; }
+        .challenge-card.distance { border-left-color: #feca57; }
+
+        .challenge-icon {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .challenge-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .challenge-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Solutions Section */
+        .solutions {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #f8f9ff 0%, #fff5f8 100%);
+        }
+
+        .solutions-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .solution-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .solution-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+
+        .solution-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(135deg, var(--accent-color, #4facfe) 0%, var(--accent-color-light, #00f2fe) 100%);
+        }
+
+        .solution-card.accessibility {
+            --accent-color: #4ecdc4;
+            --accent-color-light: #44a08d;
+        }
+
+        .solution-card.connectivity {
+            --accent-color: #45b7d1;
+            --accent-color-light: #96c93d;
+        }
+
+        .solution-card.privacy {
+            --accent-color: #96ceb4;
+            --accent-color-light: #ffecd2;
+        }
+
+        .solution-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .solution-icon {
+            font-size: 2.5em;
+        }
+
+        .solution-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .solution-description {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .solution-features {
+            list-style: none;
+        }
+
+        .solution-features li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #444;
+        }
+
+        .solution-features li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent-color, #4facfe);
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        /* Impact Section */
+        .impact {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .impact-card {
+            background: rgba(255,255,255,0.1);
+            padding: 40px 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .impact-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .impact-number {
+            font-size: 4em;
+            font-weight: bold;
+            color: #4facfe;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .impact-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 0;
+            background: #fff;
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .cta-section p {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+            padding: 16px 38px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        .footer {
+            background: #2d3748;
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 20px;
+            color: #4facfe;
+        }
+
+        .footer-section p,
+        .footer-section li {
+            color: #a0aec0;
+            line-height: 1.6;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: #a0aec0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #4facfe;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #4a5568;
+            padding-top: 30px;
+            text-align: center;
+            color: #a0aec0;
+        }
+
+        /* Animations */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5em;
+            }
+            
+            .story-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav" id="navbar">
+        <div class="nav-content">
+            <div class="nav-logo">Digital Health Solutions</div>
+            <ul class="nav-links">
+                <li><a href="#story">Julia's Story</a></li>
+                <li><a href="#challenges">Challenges</a></li>
+                <li><a href="#solutions">Solutions</a></li>
+                <li><a href="#impact">Impact</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Rural Healthcare Reimagined</h1>
+            <p class="subtitle">How Digital Health Solutions Are Transforming Care Delivery</p>
+            <p class="description">Meet Julia - a 67-year-old patient whose journey shows us the real potential and challenges of healthcare technology in rural communities.</p>
+            <a href="#story" class="cta-button">Explore Julia's Journey</a>
+        </div>
+        <div class="scroll-indicator">↓</div>
+    </section>
+
+    <section class="patient-story" id="story">
+        <div class="container">
+            <h2 class="section-title">Meet Julia</h2>
+            <p class="section-subtitle">A real-world case study in rural digital health transformation</p>
+            
+            <div class="story-grid">
+                <div class="patient-profile-card">
+                    <div class="patient-avatar">👩‍⚕️</div>
+                    <h3 class="patient-name">Julia, 67</h3>
+                    <p class="patient-details">Rural Canada • 200km from specialists</p>
+                    <div class="condition-tags">
+                        <span class="condition-tag">Diabetes</span>
+                        <span class="condition-tag">Heart Disease</span>
+                    </div>
+                </div>
+                
+                <div class="story-content">
+                    <p>Julia lives in rural Canada, where the nearest specialist is <span class="highlight">200 kilometers away</span>. Managing diabetes and heart disease in this remote location has always been challenging, but recent digital health innovations are changing her experience entirely.</p>
+                    
+                    <p>Her care team now uses <span class="highlight">cloud-based systems</span> that allow her family doctor and cardiologist to access the same information seamlessly. A voice assistant helps her stay on track with medications and log blood sugar readings, while <span class="highlight">virtual consultations</span> have eliminated countless trips to the city.</p>
+                    
+                    <p>But Julia's story isn't just about success - it's about real-world challenges too. She struggles with technology without her grandson's help, unstable internet disrupts her appointments, and she has genuine concerns about who can access her private health data.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="challenges" id="challenges">
+        <div class="container">
+            <h2 class="section-title">The Real Challenges</h2>
+            <p class="section-subtitle">Understanding the barriers to digital health adoption in rural communities</p>
+            
+            <div class="challenges-grid">
+                <div class="challenge-card tech">
+                    <span class="challenge-icon">👥</span>
+                    <h3 class="challenge-title">Technology Barriers</h3>
+                    <p class="challenge-description">Julia finds digital health tools difficult to use without help from her grandson. Complex interfaces and unfamiliar technology create barriers to independent healthcare management.</p>
+                </div>
+                
+                <div class="challenge-card connectivity">
+                    <span class="challenge-icon">📡</span>
+                    <h3 class="challenge-title">Connectivity Issues</h3>
+                    <p class="challenge-description">Unstable internet in rural areas disrupts virtual appointments and makes real-time health monitoring unreliable, creating frustration and missed care opportunities.</p>
+                </div>
+                
+                <div class="challenge-card privacy">
+                    <span class="challenge-icon">🔒</span>
+                    <h3 class="challenge-title">Privacy Concerns</h3>
+                    <p class="challenge-description">Julia worries about the privacy of her health data and wonders who else might see her sensitive medical information, creating hesitation around digital adoption.</p>
+                </div>
+                
+                <div class="challenge-card distance">
+                    <span class="challenge-icon">🏥</span>
+                    <h3 class="challenge-title">Distance to Care</h3>
+                    <p class="challenge-description">Living 200km from specialists means Julia has historically made multiple long trips for routine care, creating significant time, cost, and accessibility barriers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="solutions" id="solutions">
+        <div class="container">
+            <h2 class="section-title">Targeted Solutions</h2>
+            <p class="section-subtitle">Digital health technologies designed specifically for Julia's challenges</p>
+            
+            <div class="solutions-showcase">
+                <div class="solution-card accessibility">
+                    <div class="solution-header">
+                        <span class="solution-icon">👥</span>
+                        <h3 class="solution-title">Senior-Friendly Design</h3>
+                    </div>
+                    <p class="solution-description">Technology interfaces designed specifically for older adults, with family support features and comprehensive training resources.</p>
+                    <ul class="solution-features">
+                        <li>Large buttons and simple navigation</li>
+                        <li>Voice-first interfaces with natural language</li>
+                        <li>24/7 tech support hotline for seniors</li>
+                        <li>Family member access permissions</li>
+                        <li>Simplified mobile apps with essential features</li>
+                    </ul>
+                </div>
+                
+                <div class="solution-card connectivity">
+                    <div class="solution-header">
+                        <span class="solution-icon">📡</span>
+                        <h3 class="solution-title">Offline-Capable Platform</h3>
+                    </div>
+                    <p class="solution-description">Healthcare technology that works even when internet is unreliable, with smart syncing and backup communication methods.</p>
+                    <ul class="solution-features">
+                        <li>Automatic data sync when connection restored</li>
+                        <li>Offline medication reminders and logging</li>
+                        <li>Low-bandwidth video calling options</li>
+                        <li>SMS backup for critical alerts</li>
+                        <li>Satellite internet partnerships</li>
+                    </ul>
+                </div>
+                
+                <div class="solution-card privacy">
+                    <div class="solution-header">
+                        <span class="solution-icon">🔒</span>
+                        <h3 class="solution-title">Transparent Privacy Controls</h3>
+                    </div>
+                    <p class="solution-description">Clear, understandable privacy management that puts patients in control of their health data with robust security measures.</p>
+                    <ul class="solution-features">
+                        <li>Clear, jargon-free privacy dashboard</li>
+                        <li>Granular data sharing permissions</li>
+                        <li>End-to-end encryption for all health data</li>
+                        <li>Regular security updates and notifications</li>
+                        <li>Patient-controlled data portability</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="impact" id="impact">
+        <div class="container">
+            <h2 class="section-title">Measurable Impact</h2>
+            <p class="section-subtitle">The quantified benefits of implementing targeted digital health solutions</p>
+            
+            <div class="impact-grid">
+                <div class="impact-card">
+                    <span class="impact-number">75%</span>
+                    <p class="impact-label">Reduction in specialist trips</p>
+                </div>
+                
+                <div class="impact-card">
+                    <span class="impact-number">40%</span>
+                    <p class="impact-label">Improvement in medication adherence</p>
+                </div>
+                
+                <div class="impact-card">
+                    <span class="impact-number">60%</span>
+                    <p class="impact-label">Earlier detection of complications</p>
+                </div>
+                
+                <div class="impact-card">
+                    <span class="impact-number">90%</span>
+                    <p class="impact-label">Patient satisfaction with accessible design</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section" id="contact">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Transform Rural Healthcare?</h2>
+                <p>Julia's story shows us that with the right approach, digital health solutions can overcome the unique challenges of rural healthcare delivery while respecting patient needs and preferences.</p>
+                
+                <div class="cta-buttons">
+                    <a href="#" class="btn-primary">View Dashboard</a>
+                    <a href="#" class="btn-secondary">Download Case Study</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About This Case Study</h3>
+                    <p>Julia's story represents the real challenges and opportunities in rural digital health. This case study demonstrates how thoughtful technology design can create equitable healthcare access.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Key Learnings</h3>
+                    <ul>
+                        <li><a href="#">Rural connectivity challenges</a></li>
+                        <li><a href="#">Senior-friendly interface design</a></li>
+                        <li><a href="#">Privacy and security concerns</a></li>
+                        <li><a href="#">Care coordination benefits</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Interactive Dashboard</a></li>
+                        <li><a href="#">Full Case Study PDF</a></li>
+                        <li><a href="#">Implementation Guide</a></li>
+                        <li><a href="#">Contact Research Team</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <p>Learn more about digital health solutions for rural communities and how to implement similar programs.</p>
+                    <p>Email: info@digitalhealthsolutions.ca</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Digital Health Solutions. All rights reserved. | Privacy Policy | Terms of Service</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Show navbar on scroll
+        let lastScrollTop = 0;
+        const navbar = document.getElementById('navbar');
+        
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > 100) {
+                navbar.classList.add('visible');
+            } else {
+                navbar.classList.remove('visible');
+            }
+            
+            lastScrollTop =
