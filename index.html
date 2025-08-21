@@ -424,7 +424,7 @@
         /* Impact Section */
         .impact {
             padding: 100px 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
             color: white;
             text-align: center;
         }
@@ -437,11 +437,11 @@
         }
 
         .impact-card {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.15);
             padding: 40px 20px;
             border-radius: 15px;
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
             transition: transform 0.3s ease;
         }
 
@@ -452,14 +452,17 @@
         .impact-number {
             font-size: 4em;
             font-weight: bold;
-            color: #4facfe;
+            color: #63b3ed;
             display: block;
             margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
 
         .impact-label {
             font-size: 1.1em;
-            opacity: 0.9;
+            opacity: 1;
+            color: #f7fafc;
+            font-weight: 500;
         }
 
         /* CTA Section */
@@ -885,4 +888,112 @@
                 navbar.classList.remove('visible');
             }
             
-            lastScrollTop =
+            lastScrollTop = scrollTop;
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards and sections for scroll animations
+        document.querySelectorAll('.challenge-card, .solution-card, .impact-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Add hover effects for interactive elements
+        document.querySelectorAll('.challenge-card, .solution-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Counter animation for impact numbers
+        function animateCounters() {
+            const counters = document.querySelectorAll('.impact-number');
+            
+            counters.forEach(counter => {
+                const target = parseInt(counter.textContent);
+                const increment = target / 50;
+                let current = 0;
+                
+                const updateCounter = () => {
+                    if (current < target) {
+                        current += increment;
+                        counter.textContent = Math.ceil(current) + '%';
+                        setTimeout(updateCounter, 30);
+                    } else {
+                        counter.textContent = target + '%';
+                    }
+                };
+                
+                updateCounter();
+            });
+        }
+
+        // Trigger counter animation when impact section is visible
+        const impactSection = document.querySelector('.impact');
+        const impactObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    impactObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        impactObserver.observe(impactSection);
+
+        // Add parallax effect to hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            const rate = scrolled * -0.5;
+            
+            if (hero) {
+                hero.style.transform = `translateY(${rate}px)`;
+            }
+        });
+
+        // Mobile menu toggle (if needed)
+        const mobileMenuToggle = () => {
+            const navLinks = document.querySelector('.nav-links');
+            if (window.innerWidth <= 768) {
+                navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            }
+        };
+
+        // Responsive adjustments
+        window.addEventListener('resize', () => {
+            const navLinks = document.querySelector('.nav-links');
+            if (window.innerWidth > 768) {
+                navLinks.style.display = 'flex';
+            } else {
+                navLinks.style.display = 'none';
+            }
+        });
+
+        // Add loading animation
+        window.addEventListener('load', () => {
+            document.body.classList.add('loaded');
+        });
+    </script>
+</body>
+</html>
